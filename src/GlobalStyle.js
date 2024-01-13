@@ -3,7 +3,6 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
 
 * {
-  margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Work Sans", sans-serif;
@@ -12,15 +11,15 @@ export const GlobalStyle = createGlobalStyle`
 
 html {
   font-size: 62.5%;
-  /* scroll-behavior: smooth; */
+   scroll-behavior: smooth;
   /* 1rem = 10px */
   overflow-x: hidden;
 }
 
 body {
-  overflow-x: hidden;
-   scrollbar-color: rgb(98 84 243);
-    scrollbar-width: thin;
+  // overflow-x: hidden;
+  //  scrollbar-color: rgb(98 84 243);
+  //   scrollbar-width: thin;
 }
 
 body::-webkit-scrollbar {
@@ -43,7 +42,7 @@ h1,
 h2,
 h3,
 h4 {
-   font-family: "Work Sans", sans-serif;
+   font-family: "poppins", sans-serif;
 
 }
 
@@ -62,6 +61,7 @@ h1 {
   }
 
 h3 {
+  color: ${({ theme }) => theme.colors.heading};
   font-size: 1.8rem;
   font-weight: 400;
 }
@@ -112,10 +112,11 @@ ${"" /* resuable code section  */}
 }
 
   .common-heading {
-      font-size: 3.8rem;
-      font-weight: 600;
-      margin-bottom: 6rem;
+      font-size: 3.4rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
       text-transform: capitalize;
+      font-family:'poppins';
     }
 
      .intro-data {
@@ -155,14 +156,16 @@ input, textarea{
     text-transform: uppercase;
     font-size: 1.8rem;
     cursor: pointer;
-    }
+    }  
 
-@media (max-width: ${({ theme }) => theme.media.tab}) {
-    .container {
-    max-width: 130rem;
-    padding: 0 3.2rem;
-  }
-  }
+ @media (max-width: ${({ theme }) => theme.media.tab}) {
+     .container {
+     max-width: 100%;
+     padding-left:1rem
+     padding-right:1rem
+   }
+   }
+  
 
    @media (max-width: ${({ theme }) => theme.media.mobile}) {
        html {
@@ -176,5 +179,7 @@ input, textarea{
           grid-template-columns: 1fr;
         }
     }
+    
+  }
 
 `;

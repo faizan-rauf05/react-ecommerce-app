@@ -1,17 +1,128 @@
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { AppProductContext } from "./context/ProductContext";
+import PageNavigation from "./components/PageNavigation";
+import MyImage from "./components/MyImage";
+import FormatPrice from "./components/FormatPrice";
+import StarRatings from "./components/StarRatings";
+import AddToCart from "./components/AddToCart";
 
-return <Wrapper></Wrapper>;
+const API = "https://api.pujakaitem.com/api/products";
+
+const SingleProduct = () => {
+  const { getSingleProduct, isSingleLoading, singleProduct } =
+    AppProductContext();
+  const {
+    id: alias,
+    name,
+    company,
+    price,
+    description,
+    category,
+    stock,
+    stars,
+    reviews,
+    image,
+  } = singleProduct;
+  const { id } = useParams();
+
+  useEffect(() => {
+    getSingleProduct(`${API}?id=${id}`);
+  }, []);
+
+  if (isSingleLoading) {
+    return (
+      <div>
+        <img src="./images/hero.jpg" alt="loading" />
+      </div>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <PageNavigation pTitle={name} />
+      <div className="container">
+        <div className="grid grid-two-column">
+          {/* images  */}
+          <div className="product_images">
+            <MyImage imgs={image} />
+          </div>
+          {/* product_info */}
+          <div className="product-data">
+            <h2>{name}</h2>
+            <div className="stars-rating">
+              <StarRatings stars={stars} />
+              {stars}
+            </div>
+            <p>{reviews} reviews</p>
+            <p className="product-data-price">
+              <del>
+                <FormatPrice price={price + 250000} />
+              </del>
+            </p>
+            <p className="product-data-price product-data-real-price">
+              Deal of the day :<FormatPrice price={price} />
+            </p>
+            <p className="product-desc">{description}</p>
+            <div className="product-data-info">
+              <p>
+                Available :
+                <span> {stock > 0 ? "In Stock" : "Out of Stock"}</span>
+              </p>
+              <p>
+                ID:
+                <span> {id}</span>
+              </p>
+              <p>
+                Brand:
+                <span> {company}</span>
+              </p>
+            </div>
+            <hr />
+            {stock > 0 && <AddToCart product={singleProduct} />}
+          </div>
+        </div>
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.section`
   .container {
-    padding: 9rem 0;
+    padding: 6rem 0;
   }
   .product-data {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 2rem;
+    gap: 5px;
+
+    .product_images {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    .stars-rating {
+      color: #ffcc00;
+    }
+
+    .stars-rating {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      line-height: 0;
+    }
+    p {
+      line-height: 0;
+    }
+    .product-desc {
+      line-height: 23px;
+    }
 
     .product-data-warranty {
       width: 100%;

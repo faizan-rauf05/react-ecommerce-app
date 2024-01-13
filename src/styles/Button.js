@@ -3,10 +3,12 @@ import styled from "styled-components";
 export const Button = styled.button`
   text-decoration: none;
   max-width: auto;
+  font-size: 1.4rem;
   background-color: rgb(98 84 243);
   color: rgb(255 255 255);
-  padding: 1.4rem 2.4rem;
+  padding: 1rem 2rem;
   border: none;
+  border-radius: 6px;
   text-transform: uppercase;
   text-align: center;
   cursor: pointer;
@@ -28,3 +30,5 @@ export const Button = styled.button`
     font-size: 1.8rem;
   }
 `;
+
+export default Button;

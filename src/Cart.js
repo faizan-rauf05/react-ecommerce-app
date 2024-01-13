@@ -1,12 +1,74 @@
 import styled from "styled-components";
+import { useCartContext } from "./context/Cart_Context";
+import FormatPrice from "./components/FormatPrice";
+import { MdDelete } from "react-icons/md";
+import Button from "./styles/Button";
+import { NavLink } from "react-router-dom";
 
 const Cart = () => {
-  return <Wrapper></Wrapper>;
+  const { cart, removeFromCart } = useCartContext();
+  return (
+    <Wrapper>
+      <div className="container">
+        <div className="cart_heading grid grid-five-column">
+          <p>Item</p>
+          <p className="cart-hide">Price</p>
+          <p>Quantity</p>
+          <p className="cart-hide">Subtotal</p>
+          <p>Remove</p>
+        </div>
+        <hr />
+        <div className="cart_heading  ">
+          {cart.map((currElem, i) => {
+            return (
+              <div key={i} className="grid grid-five-column">
+                <div className="cart-image--name">
+                  <div className="product-image">
+                    <figure>
+                      <img src={currElem.image.url} alt="" />
+                    </figure>
+                  </div>
+
+                  <div className="color-div">
+                    <p>{currElem.name}</p>
+                    <button
+                      className="color-style"
+                      style={{ backgroundColor: currElem.color }}
+                    ></button>
+                  </div>
+                </div>
+                <p>
+                  <FormatPrice price={currElem.price} />
+                </p>
+                <p>{currElem.amount}</p>
+                <p>
+                  <FormatPrice price={currElem.price * currElem.amount} />
+                </p>
+                <MdDelete
+                  className="remove_icon"
+                  onClick={() => removeFromCart(currElem.id)}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <hr />
+        <div className="continue-shopping">
+          <NavLink to="/products">
+            <Button>Continue Shopping</Button>
+          </NavLink>
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`
   padding: 9rem 0;
-
+  .container {
+    max-width: 90rem;
+    margin: 0 auto;
+  }
   .grid-four-column {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -24,7 +86,7 @@ const Wrapper = styled.section`
     margin-top: 1rem;
   }
   .cart-item {
-    padding: 3.2rem 0;
+    padding: 2rem 0;
     display: flex;
     flex-direction: column;
     gap: 3.2rem;
@@ -50,13 +112,12 @@ const Wrapper = styled.section`
     text-transform: capitalize;
   }
   .cart-image--name {
-    /* background-color: red; */
     align-items: center;
     display: grid;
-    gap: 1rem;
     grid-template-columns: 0.4fr 1fr;
     text-transform: capitalize;
     text-align: left;
+    margin-left: -5rem;
     img {
       max-width: 5rem;
       height: 5rem;
@@ -65,20 +126,19 @@ const Wrapper = styled.section`
     }
 
     .color-div {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 1rem;
+      gap: 0.5rem;
 
       .color-style {
         width: 1.4rem;
         height: 1.4rem;
-
+        border: none;
         border-radius: 50%;
       }
     }
   }
-
+  .product-image {
+    margin-left: 0;
+  }
   .cart-two-button {
     margin-top: 2rem;
     display: flex;
@@ -109,7 +169,7 @@ const Wrapper = styled.section`
   }
 
   .remove_icon {
-    font-size: 1.6rem;
+    font-size: 2.2rem;
     color: #e74c3c;
     cursor: pointer;
   }
